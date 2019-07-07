@@ -102,6 +102,45 @@ const validate = (data) => {
 }
 //End
 
+//New work with mongoDB
+const db = require('./db');
+const Book = db.Book;
+
+//Find all books
+app.get('/books', async (req, res) => {
+    const books = await Book.find();
+    res.send(books);
+})
+//End
+//Find by id
+app.get('/books/:id', async (req, res) => {
+    //console.log(req.param.id);
+    const book = await Book.findById(req.params.id);
+    res.send(book);
+})
+//End
+//Create Book
+app.post('/books', async (req, res)=>{
+    //Book.Save(req.body);
+    const book = await Book.create(req.body);
+    res.send(book);
+})
+//End
+//Delete Book
+app.delete('/books/:id', async(req, res)=>{
+    const book = await Book.deleteOne({_id: req.params.id});
+    res.send(book);
+});
+//End
+//Update Book//
+app.put('/books/:id', async(req, res)=>{
+    const book = await Book.updateOne(req.body);
+    res.send(book);
+});
+//End
+//End
+
+
 app.listen(port, () => {
     console.log(`Listening on port: ${port}`);
 })
